@@ -11,6 +11,10 @@ function PointsPage() {
     neighborhood: ''
   });
 
+  // Estados para edição
+  const [editPoint, setEditPoint] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
   const loadPoints = () => {
     api.get('/api/points')
       .then(res => setPoints(res.data))
@@ -42,6 +46,33 @@ function PointsPage() {
       });
   };
 
+  // Abrir modal de edição
+  const openEditModal = (point) => {
+    setEditPoint(point);
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setEditPoint(null);
+  };
+
+  // PUT atualizar ponto
+  const handleUpdate = (e) => {
+    e.preventDefault();
+
+    api.put(`/api/points/${editPoint.id}`, editPoint)
+      .then(() => {
+        alert("Ponto atualizado com sucesso!");
+        closeModal();
+        loadPoints();
+      })
+      .catch(err => {
+        alert("Erro ao atualizar ponto");
+        console.error(err);
+      });
+  };
+
   return (
     <div>
       <h2 className="mb-3">Pontos de Coleta</h2>
@@ -60,6 +91,7 @@ function PointsPage() {
                 required
               />
             </div>
+
             <div className="col-12 col-md-5">
               <label className="form-label">Cidade</label>
               <input
@@ -70,17 +102,22 @@ function PointsPage() {
                 required
               />
             </div>
-            < div className="col-12 col-md-1">
+
+            <div className="col-12 col-md-1">
               <label className="form-label">UF</label>
               <input
                 className="form-control"
                 name="state"
                 value={form.state}
-                onChange={(e) => setForm(prev => ({ ...prev, state: e.target.value.toUpperCase().slice(0, 2) }))}
+                onChange={(e) => setForm(prev => ({
+                  ...prev,
+                  state: e.target.value.toUpperCase().slice(0, 2)
+                }))}
                 maxLength={2}
                 required
               />
             </div>
+
             <div className="col-12">
               <label className="form-label">Endereço</label>
               <input
@@ -91,6 +128,7 @@ function PointsPage() {
                 required
               />
             </div>
+
             <div className="col-12 col-md-6">
               <label className="form-label">Bairro</label>
               <input
@@ -100,6 +138,7 @@ function PointsPage() {
                 onChange={handleChange}
               />
             </div>
+
             <div className="col-12">
               <button type="submit" className="btn btn-success">
                 Salvar ponto
@@ -108,8 +147,9 @@ function PointsPage() {
           </form>
         </div>
       </div>
-      
-      <button className="btn btn-primary mb-3"
+
+      <button
+        className="btn btn-primary mb-3"
         onClick={() => window.open("http://localhost:3001/api/reports/points")}
       >
         Exportar PDF
@@ -125,17 +165,89 @@ function PointsPage() {
                 <p className="card-text">{p.address}</p>
                 <p className="card-text">
                   <small className="text-muted">
-                    {p.city}{p.neighborhood ? ` - ${p.neighborhood}` : ''}
+                    {p.city} {p.neighborhood ? ` - ${p.neighborhood}` : ''} ({p.state})
                   </small>
                 </p>
+
+                <button
+                  className="btn btn-sm btn-outline-primary me-2"
+                  onClick={() => openEditModal(p)}
+                >
+                  Editar
+                </button>
               </div>
             </div>
           </div>
         ))}
-        {points.length === 0 && (
-          <p>Nenhum ponto cadastrado ainda.</p>
-        )}
+
+        {points.length === 0 && <p>Nenhum ponto cadastrado ainda.</p>}
       </div>
+
+      {showModal && (
+        <div className="modal show d-block" tabIndex="-1">
+          <div className="modal-dialog">
+            <div className="modal-content">
+
+              <div className="modal-header">
+                <h5 className="modal-title">Editar Ponto de Coleta</h5>
+                <button className="btn-close" onClick={closeModal} />
+              </div>
+
+              <form onSubmit={handleUpdate}>
+                <div className="modal-body">
+
+                  <label className="form-label">Nome</label>
+                  <input className="form-control mb-2"
+                    value={editPoint?.name}
+                    onChange={e => setEditPoint({ ...editPoint, name: e.target.value })}
+                    required
+                  />
+
+                  <label className="form-label">Endereço</label>
+                  <input className="form-control mb-2"
+                    value={editPoint?.address}
+                    onChange={e => setEditPoint({ ...editPoint, address: e.target.value })}
+                    required
+                  />
+
+                  <label className="form-label">Cidade</label>
+                  <input className="form-control mb-2"
+                    value={editPoint?.city}
+                    onChange={e => setEditPoint({ ...editPoint, city: e.target.value })}
+                    required
+                  />
+
+                  <label className="form-label">Bairro</label>
+                  <input className="form-control mb-2"
+                    value={editPoint?.neighborhood}
+                    onChange={e => setEditPoint({ ...editPoint, neighborhood: e.target.value })}
+                  />
+
+                  <label className="form-label">UF</label>
+                  <input className="form-control mb-2"
+                    value={editPoint?.state}
+                    onChange={e =>
+                      setEditPoint({ ...editPoint, state: e.target.value.toUpperCase().slice(0, 2) })
+                    }
+                    required
+                  />
+
+                </div>
+
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-secondary" onClick={closeModal}>
+                    Cancelar
+                  </button>
+                  <button type="submit" className="btn btn-success">
+                    Salvar alterações
+                  </button>
+                </div>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
