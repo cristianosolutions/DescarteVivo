@@ -1,6 +1,12 @@
 node_modules/
 backend/node_modules/
+backend/src/OLD_db.js
 frontend/web/node_modules/
 
+
 backend/.OLD_env
-frontend/web/.env
+
+
+.env
+dist/
+build/git

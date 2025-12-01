@@ -25,7 +25,9 @@ O objetivo da validação foi apresentar o sistema EcoRecicla ao público-alvo d
 3. Discussão com o público sobre:
    - Se o sistema se encaixa na realidade deles.
    - O que facilita.
+      Gestão e controle de resíduos e pra onde aquele registro de entrega será enviado 
    - O que está faltando.
+      Implemnentar relatórios de entrega bem simplicado e resumido de entrada de resíduos por data, tipo de resíduos e pontos de coletas.
 
 ---
 
@@ -51,7 +53,7 @@ O objetivo da validação foi apresentar o sistema EcoRecicla ao público-alvo d
 - Implementado **dashboard** com resumo de:
   - total de usuários
   - total de pontos
-  - total de entregas
+  - total de entregas 
   - total de kg reciclados
   - distribuição de kg por tipo de resíduo.
 - Proteção de rotas através de **login com JWT**, garantindo que apenas usuários autenticados acessem funcionalidades críticas.
@@ -62,11 +64,11 @@ O objetivo da validação foi apresentar o sistema EcoRecicla ao público-alvo d
 ## 5. Possíveis evoluções futuras
 
 - Filtro por período de data nas telas de:
-  - Entregas
-  - Dashboard
-- Exportação de dados em CSV ou PDF.
-- Mapa com localização dos pontos de coleta.
-- Versão mobile dedicada (app ou PWA).
+  - Entregas (em andamento)
+  - Dashboard (finalizado com registros de resíduos)
+- Exportação de dados em CSV ou PDF. (em andamento)
+- Mapa com localização dos pontos de coleta.(em andamento)
+- Versão mobile dedicada (app). (projeto futuro mas já funcionado via web e responsivo)
 
 ---
 
