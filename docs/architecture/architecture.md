@@ -32,8 +32,7 @@ subgraph DATABASE["🗄 Banco de Dados — PostgreSQL (Railway Cloud)"]
     waste_deliveries[(♻ waste_deliveries\nid • user_id • collection_point_id\n total_kg • created_at)]
     waste_delivery_items[(📦 waste_delivery_items\nid • delivery_id • waste_type_id\n quantity_kg)]
     waste_types[(🏷 waste_types\nid • name • description)]
-    tasks[(📝 tasks\nid • title • completed)]
-
+    
 end
 
 %% ==================== RELATÓRIOS ====================
