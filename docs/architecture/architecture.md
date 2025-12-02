@@ -75,7 +75,6 @@ MODEL --> collection_points
 MODEL --> waste_types
 MODEL --> waste_deliveries
 MODEL --> waste_delivery_items
-MODEL --> tasks
 
 waste_deliveries --> waste_delivery_items
 users --> waste_deliveries
